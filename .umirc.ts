@@ -12,12 +12,12 @@ export default defineConfig({
   routes: [
     {
       path: '/',
-      redirect: '/home',
+      redirect: '/menu',
     },
     {
-      name: '首页',
-      path: '/home',
-      component: './Home',
+      name: '菜单设置',
+      path: '/menu',
+      component: './Menu',
     },
     {
       name: '权限演示',
