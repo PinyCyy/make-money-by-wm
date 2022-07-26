@@ -2,6 +2,7 @@ import { PageContainer, ProTable } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { useEffect, useState } from 'react';
 import AddModal from './addModal'
+import { columns } from './const'
 import styles from './index.less';
 
 import { getMenuList } from '@/services/menuService'
@@ -15,9 +16,6 @@ export default () => {
     return res
   }
 
-  // useEffect(()=>{
-  //   getList()
-  // }, [])
   return (
     <PageContainer 
       header={{
@@ -28,12 +26,13 @@ export default () => {
       <ProTable 
         rowKey='id'
         request={async(values)=>{
-          console.log('values', values)
           return await getList(values)
         }}
+        columns={columns}
         pagination={{
           showSizeChanger: true,
         }}
+        search={false}
       />
     </PageContainer>
   );

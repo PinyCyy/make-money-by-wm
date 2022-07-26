@@ -20,14 +20,9 @@ export default defineConfig({
       component: './Menu',
     },
     {
-      name: '权限演示',
+      name: '模版演示',
       path: '/access',
       component: './Access',
-    },
-    {
-      name: ' CRUD 示例',
-      path: '/table',
-      component: './Table',
     },
   ],
   npmClient: 'pnpm',
