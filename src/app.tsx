@@ -29,11 +29,19 @@ export function onRouteChange({ location, clientRoutes, routes, action }) {
 }
 
 export const patchClientRoutes = async({routes}: any) =>{
+  const href = window.location.href;
+  if(href.indexOf('127.0.0.1') > -1 || href.indexOf('localhost') > -1){
+    window.env = 'daily';
+    window.host = 'http://127.0.0.1:7001/';
+  }else{
+    window.env = 'prod';
+    window.host = 'http://120.55.73.165:7003/';
+  }
   let params = {
     method: "getMenuList",
     service: "menuService",
   }
-  fetch('http://127.0.0.1:7001/menuService', {
+  fetch(window.host + 'menuService', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

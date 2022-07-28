@@ -21,12 +21,23 @@ export default () => {
         const res = await addMenu(values);
         if(res){
             message.success('提交成功');
+            location.reload();
             return true;
         }
       }}
     >
-      <ProFormText width="lg" name="name" label="菜单名称" required />
-      <ProFormText width="lg" name="path" label="路径/path" required />
+      <ProFormText width="lg" name="name" label="菜单名称" required  rules={[
+        {
+          pattern: /^.{0,20}$/,
+          message: '长度不能超过20',
+        },
+      ]}/>
+      <ProFormText width="lg" name="path" label="路径/path" required rules={[
+        {
+          pattern: /^[a-z0-9]{0,20}$/,
+          message: '请输入长度不超过20的没有空格的字母或数组',
+        },
+      ]} />
     </ModalForm>
   );
 };

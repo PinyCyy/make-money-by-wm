@@ -7,3 +7,7 @@ export const addMenu = async(payload) =>{
 export const getMenuList = async(payload) =>{
     return await menuService.post('getMenuList', payload)
 }
+
+export const deleteMenu = async(payload) =>{
+    return await menuService.post('deleteMenu', payload)
+}

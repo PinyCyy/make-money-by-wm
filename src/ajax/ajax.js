@@ -12,7 +12,8 @@ export default class BaseService extends Object{
             method: method,
             params: params
         }
-        const res = await request('http://127.0.0.1:7001/' + this.service, {
+        const host = window.env === 'daily' ? 'http://127.0.0.1:7001/' : 'http://120.55.73.165:7003/';
+        const res = await request(host + this.service, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
