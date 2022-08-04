@@ -4,10 +4,37 @@
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://next.umijs.org/docs/api/runtime-config#getinitialstate
 
-import Menu from '@/pages/Menu'
+import Common from '@/pages/Common'
 
-export async function getInitialState(): Promise<{ name: string }> {
-  return { name: '@umijs/max' };
+
+const getRoutes = async () =>{
+  const href = window.location.href;
+  if(href.indexOf('127.0.0.1') > -1 || href.indexOf('localhost') > -1){
+    window.env = 'daily';
+    window.host = 'http://127.0.0.1:7001/';
+  }else{
+    window.env = 'prod';
+    window.host = 'http://120.55.73.165:7003/';
+  }
+  let params = {
+    method: "getMenuList",
+    service: "menuService",
+  }
+  return fetch(window.host + 'menuService', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(params),
+  }).then(res=>{
+    return res.json()
+  })
+}
+
+const routeData = await getRoutes()
+
+export async function getInitialState(): Promise<{ name: string, routes: any }> {
+  return { name: '@umijs/max', routes: routeData.data || {} };
 }
 
 export const layout = () => {
@@ -29,38 +56,16 @@ export function onRouteChange({ location, clientRoutes, routes, action }) {
 }
 
 export const patchClientRoutes = async({routes}: any) =>{
-  const href = window.location.href;
-  if(href.indexOf('127.0.0.1') > -1 || href.indexOf('localhost') > -1){
-    window.env = 'daily';
-    window.host = 'http://127.0.0.1:7001/';
-  }else{
-    window.env = 'prod';
-    window.host = 'http://120.55.73.165:7003/';
-  }
-  let params = {
-    method: "getMenuList",
-    service: "menuService",
-  }
-  fetch(window.host + 'menuService', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(params),
-  }).then(res=>{
-    return res.json()
-  }).then(res=>{
-    if(res?.code == 200){
-    res.data.data.map((item: any)=>{
+  if(routeData?.code == 200){
+    routeData.data.data.map((item: any)=>{
       routes[0].routes.push({
         path: `/${item.path}`,
         name: item.name,
         key: item.id,
-        element: <Menu />
+        element: <Common />
       })
     })
-    }
-  })
+  }
   routes[0].routes.push({
     path: `*`,
     redirect: '/menu',

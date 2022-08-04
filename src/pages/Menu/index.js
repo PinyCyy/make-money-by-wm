@@ -3,15 +3,9 @@ import { useModel } from '@umijs/max';
 import AddModal from './addModal'
 import { columns } from './const'
 
-import { getMenuList } from '@/services/menuService'
-
 export default () => {
-  const { name } = useModel('global');
-
-  const getList = async (params) => {
-    const res = await getMenuList(params)
-    return res
-  }
+  const { initialState } = useModel('@@initialState');
+  const { routes } = initialState;
 
   return (
     <PageContainer 
@@ -22,13 +16,9 @@ export default () => {
     >
       <ProTable 
         rowKey='id'
-        request={async(values)=>{
-          return await getList(values)
-        }}
+        dataSource={routes.data}
         columns={columns}
-        pagination={{
-          showSizeChanger: true,
-        }}
+        pagination={false}
         search={false}
       />
     </PageContainer>
