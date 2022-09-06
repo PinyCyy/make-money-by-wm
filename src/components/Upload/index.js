@@ -6,7 +6,6 @@ import './index.less'
 
 export default (props) =>{
     const { name, formRef, setUploadStatus } = props
-console.log(formRef)
     const customRequest = async (info) =>{
         const { onSuccess, file } = info;
         const type = location.pathname.split('/')[1];
